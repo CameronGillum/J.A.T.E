@@ -1,5 +1,8 @@
 const butInstall = document.getElementById('buttonInstall');
 
+// Hide the install button by default
+butInstall.style.display = 'none';
+
 let deferredPrompt;
 
 // Logic for installing the PWA
