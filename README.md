@@ -1,6 +1,7 @@
 # J.A.T.E
 
 ## Screenshot
+![image](https://github.com/user-attachments/assets/998baffb-421b-4b9f-9f74-95d99b71f22b)
 
 ## Description
 A text editor that can be installed to a users desktop
