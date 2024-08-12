@@ -1,4 +1,7 @@
-const { offlineFallback, warmStrategyCache } = require('workbox-recipes');
+// My instructor Dan Mueller gave me this code and said I should use it in the Challenge.
+// He said you should direct any concerns directly to him via Slack or at dmueller@2u.com
+
+const { warmStrategyCache } = require('workbox-recipes');
 const { CacheFirst, StaleWhileRevalidate } = require('workbox-strategies');
 const { registerRoute } = require('workbox-routing');
 const { CacheableResponsePlugin } = require('workbox-cacheable-response');
@@ -7,6 +10,7 @@ const { precacheAndRoute } = require('workbox-precaching/precacheAndRoute');
 
 precacheAndRoute(self.__WB_MANIFEST);
 
+// Set up page cache
 const pageCache = new CacheFirst({
   cacheName: 'page-cache',
   plugins: [
@@ -26,26 +30,15 @@ warmStrategyCache({
 
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
-// TODO: Implement asset caching
-
-// My instructor Dan Mueller gave me this code and said I should use it in the Challenge.
-// He said you should direct any concerns directly to him via Slack or at dmueller@2u.com
+// Set up asset cache
 registerRoute(
-  // Here we define the callback function that will filter the requests we want to cache (in this case, JS and CSS files)
   ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
   new StaleWhileRevalidate({
-    // Name of the cache storage.
     cacheName: 'asset-cache',
     plugins: [
-      // This plugin will cache responses with these headers to a maximum-age of 30 days
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
     ],
   })
 );
-
-// Implement offline fallback
-offlineFallback({
-  pageFallback: '/index.html',
-});
